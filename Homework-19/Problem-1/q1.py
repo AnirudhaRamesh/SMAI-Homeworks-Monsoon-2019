@@ -44,26 +44,31 @@ print(Y_train.shape, 'train samples')
 print(Y_test.shape, 'test samples')
 
 def neural_net(kernel_initializer):
+	
 	model = Sequential()
 	model.add(Dense(1000,kernel_initializer=kernel_initializer,activation='tanh', input_shape=(784,)))
 	model.add(Dense(1000,kernel_initializer=kernel_initializer, activation='tanh'))
 	model.add(Dense(2,kernel_initializer=kernel_initializer, activation='sigmoid'))
 
+	# summary of the neural network
 	model.summary()
 
 	model.compile(loss='MSE',
               optimizer=RMSprop(),
               metrics=['accuracy'])
 
+	#fitting the model 
 	history = model.fit(X_train, Y_train,
 	                    batch_size=batch_size,
 	                    epochs=epochs,
 	                    verbose=1,
 	                    validation_data=(X_test, Y_test))
 	
+	# evaluating accuracy 
 	score = model.evaluate(X_test, Y_test, verbose=0)
 	
 	print('Test loss:', score[0])
+	# do (score[1] * 100) for percentage accuracy  
 	print('Test accuracy:', score[1])
 
 Y_train = keras.utils.to_categorical(Y_train, num_classes)
